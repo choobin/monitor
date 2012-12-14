@@ -17,9 +17,9 @@ int main(int argc, char **argv)
         system("cls");
 
         printf("rx: %.2f KB/s\r\n"
-			   "tx: %.2f KB/s\r\n",
+               "tx: %.2f KB/s\r\n",
                d.rx,
-			   d.tx);
+               d.tx);
 
         Sleep(SAMPLE_INTERVAL_MS);
     }
