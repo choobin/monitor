@@ -1,0 +1,35 @@
+Requirements:
+=============
+
+  * GCC
+  * GNU Make
+  * pkg-config
+  * Gtk3
+
+Compilation:
+============
+
+A proper install script is still very much a TODO item.
+
+To compile and run monitor you need to build it and then install its
+GSettings schema.
+
+To compile simply run the Makefile.
+
+    $ make
+
+To install the GSettings schema.
+
+    $ sudo cp apps.monitor.gschema.xml /usr/share/glib-2.0/schemas/
+
+and then call glib-compile-schemas to include apps.monitor.gschema.xml.
+
+    $ sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+Then you can run the program.
+
+    $ ./monitor [INTERFACE]
+
+To get a list of valid network interfaces.
+
+    $ ./monitor --list

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+
+  <enum id='apps.monitor.placement'>
+    <value nick='top-left' value='0'/>
+    <value nick='top-right' value='1'/>
+    <value nick='bottom-left' value='2'/>
+    <value nick='bottom-right' value='3'/>
+  </enum>
+
+  <schema id="apps.monitor" path="/apps/monitor/">
+
+    <key name='interface' type='s'>
+      <default>'unknown'</default>
+      <summary>Network interface.</summary>
+      <description>The network interface to monitor. A list of
+      suitable network interfaces is located in the /sys/classes/net/
+      directory.</description>
+    </key>
+
+    <key name='font' type='s'>
+      <default>'Monospace 10'</default>
+      <summary>Font description.</summary>
+      <description>Textual description of the font face to each
+      transfer monitor. For details refer to
+      pango_font_description_from_string().</description>
+    </key>
+
+    <key name='font-rgba' type='s'>
+      <default>'rgba (255,255,255,1.0)'</default>
+      <summary>Font color.</summary>
+      <description>Information describing the font color
+      properties. Where 'r', 'g', 'b' and 'a' are respectively the
+      red, green, blue and alpha color values. r g and b are either
+      integers in the range 0 to 255 or precentage values in the range
+      0% to 100%, and a is a floating point value in the range 0 to
+      1. Note that the a field is optional.</description>
+    </key>
+
+    <key name='placement' enum='apps.monitor.placement'>
+      <default>'bottom-right'</default>
+      <summary>Monitor placement.</summary>
+      <description>Four static position options to control the
+      placement of the monitor on the screen, 'top-left', 'top-right',
+      'bottom-left', 'bottom-right'.</description>
+    </key>
+
+  </schema>
+
+</schemalist>
