@@ -8,19 +8,19 @@
 static LRESULT CALLBACK
 window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+    switch (uMsg)
+    {
     case WM_CREATE: {
         init_application(hwnd);
 
         update_application(hwnd);
         }
-		break;
+        break;
 
     case WM_PAINT: {
         paint_application(hwnd);
         }
- 		break;
+        break;
 
     case WM_TIMER: {
         // XXX This timer callback needs work. I am not happy with it.
@@ -28,7 +28,7 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
         }
-		break;
+        break;
 
     case WM_NOTIFYICON: {
         if (lParam == WM_LBUTTONDOWN) {
@@ -41,59 +41,59 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         if (lParam == WM_RBUTTONDOWN)
             show_menu(hwnd);
         }
-		break;
+        break;
 
     case WM_DESTROY: {
         free_application(hwnd);
 
         PostQuitMessage(0);
         }
-		break;
+        break;
 
     default: {
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
         }
-	}
+    }
 
-	return 0;
+    return 0;
 }
 
 static void
 register_class(HINSTANCE hInstance)
 {
-	WNDCLASSEX wnd;
+    WNDCLASSEX wnd;
 
-	ZeroMemory(&wnd, sizeof wnd);
+    ZeroMemory(&wnd, sizeof wnd);
 
-	wnd.cbSize = sizeof wnd;
+    wnd.cbSize = sizeof wnd;
 
-	wnd.style = CS_HREDRAW | CS_VREDRAW;
+    wnd.style = CS_HREDRAW | CS_VREDRAW;
 
-	wnd.lpfnWndProc = window_procedure;
-	wnd.cbClsExtra = 0;
-	wnd.cbWndExtra = 0;
-	wnd.hInstance = hInstance;
+    wnd.lpfnWndProc = window_procedure;
+    wnd.cbClsExtra = 0;
+    wnd.cbWndExtra = 0;
+    wnd.hInstance = hInstance;
 
-	wnd.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
+    wnd.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
 
-	wnd.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
+    wnd.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
 
-	wnd.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wnd.hCursor = LoadCursor(NULL, IDC_ARROW);
 
-	wnd.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    wnd.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
-	wnd.lpszMenuName = NULL;
-	wnd.lpszClassName = NULL;
+    wnd.lpszMenuName = NULL;
+    wnd.lpszClassName = NULL;
 
-	wnd.lpszClassName = MONITOR_NAME;
+    wnd.lpszClassName = MONITOR_NAME;
 
-	RegisterClassEx(&wnd);
+    RegisterClassEx(&wnd);
 }
 
 static void
 create_window(HINSTANCE hInstance, int nCmdShow)
 {
-	HWND hwnd = CreateWindowEx(
+    HWND hwnd = CreateWindowEx(
         // http://msdn.microsoft.com/en-us/library/windows/desktop/ff700543%28v=vs.85%29.aspx
         WS_EX_LAYERED,
         MONITOR_NAME,
@@ -109,50 +109,50 @@ create_window(HINSTANCE hInstance, int nCmdShow)
         hInstance,
         NULL);
 
-	SetTimer(hwnd, ID_TIMER, TIMEOUT_INTERVAL, NULL);
+    SetTimer(hwnd, ID_TIMER, TIMEOUT_INTERVAL, NULL);
 
- 	ZeroMemory(&application.tray_icon, sizeof application.tray_icon);
+    ZeroMemory(&application.tray_icon, sizeof application.tray_icon);
 
-	application.tray_icon.cbSize = sizeof application.tray_icon;
+    application.tray_icon.cbSize = sizeof application.tray_icon;
 
-	application.tray_icon.hWnd = hwnd;
+    application.tray_icon.hWnd = hwnd;
 
-	application.tray_icon.uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE | NIF_GUID;
+    application.tray_icon.uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE | NIF_GUID;
 
-	application.tray_icon.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
+    application.tray_icon.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
 
-	wcscpy_s(application.tray_icon.szTip, MONITOR_NAME);
+    wcscpy_s(application.tray_icon.szTip, MONITOR_NAME);
 
-	application.tray_icon.uCallbackMessage = WM_NOTIFYICON;
+    application.tray_icon.uCallbackMessage = WM_NOTIFYICON;
 
-	Shell_NotifyIcon(NIM_ADD, &application.tray_icon);
+    Shell_NotifyIcon(NIM_ADD, &application.tray_icon);
 
     SetLayeredWindowAttributes(hwnd, RGB(0, 255, 255), 255, LWA_COLORKEY);
 
-	ShowWindow(hwnd, nCmdShow);
+    ShowWindow(hwnd, nCmdShow);
 }
 
 static WPARAM
 message_loop()
 {
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0) > 0) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0) > 0) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 
-	return msg.wParam;
+    return msg.wParam;
 }
 
 int WINAPI
 wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(pCmdLine);
+    UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(pCmdLine);
 
-	register_class(hInstance);
+    register_class(hInstance);
 
-	create_window(hInstance, nCmdShow);
+    create_window(hInstance, nCmdShow);
 
-	return message_loop();
+    return message_loop();
 }

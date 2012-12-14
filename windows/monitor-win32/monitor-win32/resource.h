@@ -8,7 +8,7 @@
 
 #define MONITOR_VERSION_STR L"1.0"
 
-// .rc files do not accept concatenated strings, i.e., "Hello" " " "world". 
+// .rc files do not accept concatenated strings, i.e., "Hello" " " "world".
 // This means I can not use MONITOR_NAME L" v" MONITOR_VERSION.
 // Thus the following definition.
 

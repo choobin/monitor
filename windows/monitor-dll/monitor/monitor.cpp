@@ -24,7 +24,7 @@ public:
     PDH_STATUS poll(Data&);
 
 private:
-	impl();
+    impl();
     impl(const impl&);
     impl& operator=(const impl&);
 
@@ -58,14 +58,14 @@ PDH_STATUS Monitor::impl::init(const wchar_t *interface_str)
     status = PdhOpenQuery(NULL, NULL, &handle);
     check("PdhOpenQuery");
 
-	wchar_t buffer[BUFSIZ];
+    wchar_t buffer[BUFSIZ];
 
-	wsprintf(buffer, L"\\Network Interface(%s)\\Bytes Received/sec", interface_str);
-	
+    wsprintf(buffer, L"\\Network Interface(%s)\\Bytes Received/sec", interface_str);
+
     status = PdhAddCounter(handle, buffer, 0, &recv_counter);
     check("PdhAddCounter 'recv'");
 
-	wsprintf(buffer, L"\\Network Interface(%s)\\Bytes Sent/sec", interface_str);
+    wsprintf(buffer, L"\\Network Interface(%s)\\Bytes Sent/sec", interface_str);
 
     status = PdhAddCounter(handle, buffer, 0, &sent_counter);
     check("PdhAddCounter 'sent'");
@@ -103,7 +103,7 @@ PDH_STATUS Monitor::impl::poll(Data& data)
     check("PdhGetFormattedCounterValue 'send'");
 
     data.tx = value.doubleValue / (double)BYTES_TO_KB;
-	
+
     return status;
 }
 
@@ -114,9 +114,9 @@ Monitor::impl::~impl()
     }
 }
 
-Monitor::Monitor(size_t interface_id) 
+Monitor::Monitor(size_t interface_id)
 {
-	switch_interface(interface_id);
+    switch_interface(interface_id);
 }
 
 Monitor::~Monitor()
@@ -134,79 +134,79 @@ Data Monitor::poll()
 
 void Monitor::switch_interface(size_t interface_id)
 {
-	vector<wstring> interface_list = interfaces();
-	
-	if (interface_id >= interface_list.size())
-		interface_id = 0;
+    vector<wstring> interface_list = interfaces();
 
-	const wchar_t *str = L"*"; // Default "*" equates to "All Interfaces"
+    if (interface_id >= interface_list.size())
+        interface_id = 0;
 
-	if (interface_id > 0)
-		str = interface_list[interface_id].c_str();
+    const wchar_t *str = L"*"; // Default "*" equates to "All Interfaces"
 
-	pimpl.reset(new impl(str));
+    if (interface_id > 0)
+        str = interface_list[interface_id].c_str();
+
+    pimpl.reset(new impl(str));
 }
 
 vector<wstring> Monitor::interfaces()
 {
-	CONST PWSTR COUNTER_OBJECT = L"Network Interface";
-	PDH_STATUS status = ERROR_SUCCESS;
+    CONST PWSTR COUNTER_OBJECT = L"Network Interface";
+    PDH_STATUS status = ERROR_SUCCESS;
     LPWSTR counters = NULL;
     DWORD nbytes_counters = 0;
     LPWSTR instances = NULL;
     DWORD nbytes_instances = 0;
     LPWSTR temp = NULL;
-	
-	vector<wstring> v;
 
-	v.push_back(L"All interfaces"); // Initial default value.
-		
-	// Determine the required buffer size for the data. 
+    vector<wstring> v;
+
+    v.push_back(L"All interfaces"); // Initial default value.
+
+    // Determine the required buffer size for the data.
     status = PdhEnumObjectItems(
         NULL,
-        NULL, 
-        COUNTER_OBJECT, 
-        counters, 
-        &nbytes_counters,
-        instances, 
-		&nbytes_instances, 
-        PERF_DETAIL_WIZARD,
-        0); 
-
-	if (status != PDH_MORE_DATA)
-		goto Error;
-
-	// Keep this here. I might want to do something with it later.
-    counters = (LPWSTR)malloc(nbytes_counters * sizeof(wchar_t));
-	if (counters == NULL)
-		goto Error;
-
-    instances = (LPWSTR)malloc(nbytes_instances * sizeof(wchar_t));
-	if (instances == NULL)
-		goto FreeCounters;
-            
-	// The second call will fill the counter and instance buffers.
-    status = PdhEnumObjectItems(
-		NULL,
         NULL,
         COUNTER_OBJECT,
-        counters, 
+        counters,
         &nbytes_counters,
-        instances, 
-        &nbytes_instances, 
+        instances,
+        &nbytes_instances,
         PERF_DETAIL_WIZARD,
-        0); 
-     
-	if (status != ERROR_SUCCESS)
-		goto FreeAll;
-	
-	for (temp = instances; *temp != 0; temp += wcslen(temp) + 1) 
-		v.push_back(temp);
+        0);
+
+    if (status != PDH_MORE_DATA)
+        goto Error;
+
+    // Keep this here. I might want to do something with it later.
+    counters = (LPWSTR)malloc(nbytes_counters * sizeof(wchar_t));
+    if (counters == NULL)
+        goto Error;
+
+    instances = (LPWSTR)malloc(nbytes_instances * sizeof(wchar_t));
+    if (instances == NULL)
+        goto FreeCounters;
+
+    // The second call will fill the counter and instance buffers.
+    status = PdhEnumObjectItems(
+        NULL,
+        NULL,
+        COUNTER_OBJECT,
+        counters,
+        &nbytes_counters,
+        instances,
+        &nbytes_instances,
+        PERF_DETAIL_WIZARD,
+        0);
+
+    if (status != ERROR_SUCCESS)
+        goto FreeAll;
+
+    for (temp = instances; *temp != 0; temp += wcslen(temp) + 1)
+        v.push_back(temp);
 
 FreeAll:
     free(instances);
 FreeCounters:
     free(counters);
 Error:
-	return v;
+    return v;
 }

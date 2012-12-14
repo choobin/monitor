@@ -9,38 +9,38 @@
 #pragma comment(lib, "monitor.lib")
 
 struct Application {
-	Monitor monitor;
-	Data data;
+    Monitor monitor;
+    Data data;
 
-	NOTIFYICONDATA tray_icon;
+    NOTIFYICONDATA tray_icon;
 
-	struct {
-	    HFONT type;
-	    COLORREF color;
-	} font;
+    struct {
+        HFONT type;
+        COLORREF color;
+    } font;
 
-	HMENU menu;
-	struct {
-		HMENU interfaces;
-		HMENU placement;
-	} submenu;
+    HMENU menu;
+    struct {
+        HMENU interfaces;
+        HMENU placement;
+    } submenu;
 
-	std::vector<std::wstring> interface_names;
-	int interface_id;
-		
-	int placement_id;
+    std::vector<std::wstring> interface_names;
+    int interface_id;
+
+    int placement_id;
 };
 
 extern Application application;
 
-void 
+void
 init_application(HWND);
 
-void 
+void
 free_application(HWND);
 
-void 
+void
 update_application(HWND);
 
-void 
+void
 paint_application(HWND);

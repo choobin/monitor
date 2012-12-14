@@ -10,26 +10,26 @@
 #endif
 
 struct __declspec(dllexport) Data {
-	double rx;
-	double tx;
+    double rx;
+    double tx;
 };
 
 class __declspec(dllexport) Monitor {
 public:
-	Monitor(size_t = 0); // Default interface_id value of 0 [All Interfaces (*)]
+    Monitor(size_t = 0); // Default interface_id value of 0 [All Interfaces (*)]
 
     ~Monitor();
 
-	Data poll();
+    Data poll();
 
     std::vector<std::wstring> interfaces();
 
     void switch_interface(size_t);
 
 private:
-	Monitor(const Monitor&);
-	Monitor& operator=(const Monitor&);
+    Monitor(const Monitor&);
+    Monitor& operator=(const Monitor&);
 
-	class impl;
-	std::unique_ptr<impl> pimpl;
+    class impl;
+    std::unique_ptr<impl> pimpl;
 };
