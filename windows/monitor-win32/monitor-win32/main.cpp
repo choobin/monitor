@@ -10,27 +10,27 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
-    case WM_CREATE: {
+    case WM_CREATE:
         init_application(hwnd);
 
         update_application(hwnd);
-        }
+
         break;
 
-    case WM_PAINT: {
+    case WM_PAINT:
         paint_application(hwnd);
-        }
+
         break;
 
-    case WM_TIMER: {
+    case WM_TIMER:
         // XXX This timer callback needs work. I am not happy with it.
         application.data = application.monitor.poll();
 
         RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-        }
+
         break;
 
-    case WM_NOTIFYICON: {
+    case WM_NOTIFYICON:
         if (lParam == WM_LBUTTONDOWN) {
             if (IsWindowVisible(hwnd))
                 ShowWindow(hwnd, SW_HIDE);
@@ -40,19 +40,18 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         if (lParam == WM_RBUTTONDOWN)
             show_menu(hwnd);
-        }
+
         break;
 
-    case WM_DESTROY: {
+    case WM_DESTROY:
         free_application(hwnd);
 
         PostQuitMessage(0);
-        }
+
         break;
 
-    default: {
+    default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
-        }
     }
 
     return 0;
