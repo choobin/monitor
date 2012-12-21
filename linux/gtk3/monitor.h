@@ -44,12 +44,12 @@ typedef struct {
         placement_bottom_right,
         nplacements
     } placement;
+
     struct {
         uint64_t rx_raw;
         uint64_t tx_raw;
         double rx;
         double tx;
-
     } data;
 
     char interface[INTERFACE_STRING_MAX];
