@@ -15,7 +15,7 @@ using std::unique_ptr;
 
 #include "monitor.h"
 
-#define BYTES_TO_KB 1024
+#define BYTES_TO_KB 1000
 
 class Monitor::impl {
 public:
