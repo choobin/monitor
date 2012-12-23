@@ -1,0 +1,33 @@
+.nm-icon {
+    padding-left: 3px;
+}
+
+.nm-tx-label-small {
+    width: 60px;
+    text-align: right;
+    padding-left: 3px;
+}
+
+.nm-tx-label-medium {
+    width: 80px;
+    text-align: right;
+    padding-left: 3px;
+}
+
+.nm-tx-label-large {
+    width: 100px;
+    text-align: right;
+    padding-left: 3px;
+}
+
+.nm-tx-label-ridiculous {
+    width: 120px;
+    text-align: right;
+    padding-left: 3px;
+}
+
+.nm-prefix-label {
+    font-size: 0.5em;
+    padding-top: 8px;
+    padding-left: 3px;
+}
