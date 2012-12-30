@@ -1,0 +1,24 @@
+To build and run first create the platform specific build files with
+
+    % qmake
+
+To compile on Linux type
+
+    % make
+
+To compile on Windows type (make sure to be in a developer console with the QT
+bin directory added to your PATH)
+
+    % nmake
+
+To run on Linux type
+
+    % ./monitor
+
+To run on Windows type 
+
+    % debug\monitor.exe
+
+    or,
+
+    % release\monitor.exe

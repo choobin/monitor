@@ -1,0 +1,52 @@
+#include <windows.h>
+
+#include "resource.h"
+
+#ifndef OFFICIAL
+#define VER_PRIVATEBUILD      VS_FF_PRIVATEBUILD
+#else
+#define VER_PRIVATEBUILD      0
+#endif
+
+#ifndef FINAL
+#define VER_PRERELEASE        VS_FF_PRERELEASE
+#else
+#define VER_PRERELEASE        0
+#endif
+
+#ifdef DEBUG
+#define VER_DEBUG             VS_FF_DEBUG
+#else
+#define VER_DEBUG             0
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    	MONITOR_VERSION
+PRODUCTVERSION 	MONITOR_VERSION
+FILEFLAGSMASK  	VS_FFI_FILEFLAGSMASK
+FILEFLAGS      	(VER_PRIVATEBUILD|VER_PRERELEASE|VER_DEBUG)
+FILEOS         	VOS__WINDOWS32
+FILETYPE       	VFT_APP
+FILESUBTYPE    	VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileDescription",  MONITOR_APPLICATION_NAME
+            VALUE "FileVersion",      MONITOR_VERSION_STR
+            VALUE "InternalName",     MONITOR_APPLICATION_NAME
+            VALUE "LegalCopyright",   MONITOR_AUTHOR
+            VALUE "OriginalFilename", MONITOR_FILENAME
+            VALUE "ProductName",      MONITOR_APPLICATION_NAME
+            VALUE "ProductVersion",   MONITOR_VERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+IDI_ICON1 ICON DISCARDABLE MONITOR_ICO
