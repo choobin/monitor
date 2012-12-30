@@ -19,6 +19,6 @@ To run on Windows type
 
     % debug\monitor.exe
 
-    or,
+or if you built a release version,
 
     % release\monitor.exe
