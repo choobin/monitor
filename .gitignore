@@ -1,2 +1,9 @@
 *.o
 linux/gtk3/monitor
+cross/qt4/monitor
+cross/qt4/moc_*
+cross/qt4/Makefile*
+cross/qt4/*.pdb
+cross/qt4/qrc_*
+cross/qt4/debug/
+cross/qt4/release/
