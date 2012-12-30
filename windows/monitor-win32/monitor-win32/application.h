@@ -8,27 +8,24 @@
 #include "monitor.h"
 #pragma comment(lib, "monitor.lib")
 
+#include "settings.h"
+
 struct Application {
     Monitor monitor;
+
     Data data;
 
-    NOTIFYICONDATA tray_icon;
+    Settings settings;
 
-    struct {
-        HFONT type;
-        COLORREF color;
-    } font;
+    NOTIFYICONDATA tray_icon;
 
     HMENU menu;
     struct {
         HMENU interfaces;
+        HMENU units;
+        HMENU prefix;
         HMENU placement;
     } submenu;
-
-    std::vector<std::wstring> interface_names;
-    int interface_id;
-
-    int placement_id;
 };
 
 extern Application application;

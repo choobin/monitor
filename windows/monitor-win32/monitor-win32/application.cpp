@@ -4,8 +4,6 @@
 #include "menu.h"
 #include "settings.h"
 
-const wchar_t *application_name = L"Monitor";
-
 Application application;
 
 void
@@ -23,9 +21,17 @@ free_application(HWND hwnd)
 {
     save_settings();
 
+    DestroyMenu(application.submenu.interfaces);
+
+    DestroyMenu(application.submenu.units);
+
+    DestroyMenu(application.submenu.prefix);
+
+    DestroyMenu(application.submenu.placement);
+
     DestroyMenu(application.menu);
 
-    DeleteObject(application.font.type);
+    DeleteObject(application.settings.font.family);
 
     Shell_NotifyIcon(NIM_DELETE, &application.tray_icon);
 
@@ -40,8 +46,9 @@ update_application(HWND hwnd)
 
     hdc = BeginPaint(hwnd, &ps);
 
-    SelectObject(hdc, application.font.type);
+    SelectObject(hdc, application.settings.font.family);
 
+    // XXX What if rx/tx value is greater than 8.2 digits?
     wchar_t buffer[BUFSIZ];
     swprintf_s(buffer, L"%8.2f", 0.0);
 
@@ -65,7 +72,7 @@ update_application(HWND hwnd)
     screen.x = workingarea.right - workingarea.left;
     screen.y = workingarea.bottom - workingarea.top;
 
-    switch (application.placement_id) {
+    switch (application.settings.placement_id) {
     case ID_MENU_PLACEMENT_TL:
         MoveWindow(hwnd, 0, 0, size.cx, size.cy, TRUE);
         break;
@@ -98,13 +105,49 @@ paint_application(HWND hwnd)
 
     SetBkMode(hdc, TRANSPARENT);
 
-    SelectObject(hdc, application.font.type);
+    SelectObject(hdc, application.settings.font.family);
 
     RECT rect = {0, 0, 0, 0};
-    SetTextColor(hdc, application.font.color);
+    SetTextColor(hdc, application.settings.font.color);
+
+    double rx = static_cast<double>(application.data.rx);
+    double tx = static_cast<double>(application.data.tx);
+    double divisor = 0.0;
+
+    switch (application.settings.prefix_id) {
+    case ID_MENU_PREFIX_BITS:
+        divisor = 1000.0;
+        rx *= 8;
+        tx *= 8;
+        break;
+
+    case ID_MENU_PREFIX_SI:
+        divisor = 1000.0;
+        break;
+
+    case ID_MENU_PREFIX_IEC:
+        divisor = 1024.0;
+        break;
+    }
+
+    switch (application.settings.units_id) {
+    case ID_MENU_UNITS_GPS:
+        rx /= divisor;
+        tx /= divisor;
+        // Fall through.
+    case ID_MENU_UNITS_MPS:
+        rx /= divisor;
+        tx /= divisor;
+        // Fall through.
+    case ID_MENU_UNITS_KPS:
+        rx /= divisor;
+        tx /= divisor;
+        break;
+    }
 
     wchar_t buffer[BUFSIZ];
-    swprintf_s(buffer, L"%8.2f\n%8.2f", application.data.rx, application.data.tx);
+
+    swprintf_s(buffer, L"%8.2f\n%8.2f", rx, tx);
 
     DrawText(hdc, buffer, -1, &rect, DT_NOCLIP);
 
