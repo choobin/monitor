@@ -4,6 +4,8 @@
 #include <pdh.h>
 #include <pdhmsg.h>
 
+#include <stdint.h>
+
 #pragma comment(lib, "pdh.lib")
 
 #include <vector>
@@ -14,8 +16,6 @@ using std::wstring;
 using std::unique_ptr;
 
 #include "monitor.h"
-
-#define BYTES_TO_KB 1000
 
 class Monitor::impl {
 public:
@@ -86,23 +86,23 @@ PDH_STATUS Monitor::impl::poll(Data& data)
 
     status = PdhGetFormattedCounterValue(
         recv_counter,
-        PDH_FMT_DOUBLE,
+        PDH_FMT_LONG,
         NULL,
         &value);
 
     check("PdhGetFormattedCounterValue 'recv'");
 
-    data.rx = value.doubleValue / (double)BYTES_TO_KB;
+    data.rx = static_cast<uint64_t>(value.longValue);
 
     status = PdhGetFormattedCounterValue(
         sent_counter,
-        PDH_FMT_DOUBLE,
+        PDH_FMT_LONG,
         NULL,
         &value);
 
     check("PdhGetFormattedCounterValue 'send'");
 
-    data.tx = value.doubleValue / (double)BYTES_TO_KB;
+    data.tx = static_cast<uint64_t>(value.longValue);
 
     return status;
 }
