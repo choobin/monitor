@@ -2,7 +2,6 @@
     "uuid": "network-monitor@moongiraffe.net",
     "name": "Network Monitor",
     "description": "A simple lightweight network monitor.",
-    "original-author": "christopher@hoob.in",
     "url": "http://github.com/choobin/monitor/linux/gnome-shell",
     "shell-version": ["3.6"]
 }
