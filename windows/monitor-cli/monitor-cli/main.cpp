@@ -1,11 +1,13 @@
-#include <windows.h>
+q#include <windows.h>
 #include <stdio.h>
 #include <conio.h> // _kbhit
 
 #include "monitor.h"
 #pragma comment(lib, "monitor.lib")
 
-#define SAMPLE_INTERVAL_MS 500
+#define BYTES_TO_KB 1000.0
+
+#define SAMPLE_INTERVAL_MS 1000
 
 int main(int argc, char **argv)
 {
@@ -18,8 +20,8 @@ int main(int argc, char **argv)
 
         printf("rx: %.2f KB/s\r\n"
                "tx: %.2f KB/s\r\n",
-               d.rx,
-               d.tx);
+               d.rx / BYTES_TO_KB,
+               d.tx / BYTES_TO_KB);
 
         Sleep(SAMPLE_INTERVAL_MS);
     }
