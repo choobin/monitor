@@ -237,29 +237,13 @@ const NetworkMonitor = new Lang.Class({
             divisor = 1024.0;
         }
 
-        if (this.format == 1) { // K/s.
-            value /= divisor;
-        }
-        else if (this.format == 2) { // M/s.
-            value /= divisor;
-            value /= divisor;
-        }
-        else if (this.format == 3) { // G/s.
-            value /= divisor;
-            value /= divisor;
-            value /= divisor;
-        }
-
-        let i = 0;
-
-        let tmp = value;
-
-        if (tmp < 1.0)
-            i++;
-
-        while (tmp > 1.00) {
-            tmp /= 10;
-            i++;
+        switch (this.format) {
+        case 3: // G/s
+            value /= divisor; // Fall through.
+        case 2: // M/s
+            value /= divisor; // Fall through.
+        case 1: // K/s
+            value /= divisor; // Fall through.
         }
 
         return [value.toFixed(this.significant_digits), prefix[this.prefix_type][this.format]];
