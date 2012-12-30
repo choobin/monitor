@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+
+  <schema id="org.gnome.shell.extensions.network-monitor"
+          path="/org/gnome/shell/extensions/network-monitor/">
+
+    <key name='interface' type='s'>
+      <default>'unknown'</default>
+      <summary>Network interface.</summary>
+      <description>The network interface to monitor. A list of
+      suitable network interfaces is located in the /sys/classes/net/
+      directory.</description>
+    </key>
+
+    <key name='format' type='i'>
+      <default>1</default>
+      <summary>Monitor display format.</summary>
+      <description>Configure the display format of the transmission
+      speeds. There are a number of fixed options to choose
+      from, B/s, K/s, M/s and G/s.</description>
+    </key>
+
+    <key name='prefix' type='i'>
+      <default>1</default>
+      <summary>Bits, Si decimal or IEC binary prefix.</summary>
+      <description>Bits per second, Si decimal or IEC binary
+      prefixes. For example, a Si decimal prefix, Gigabyte (GB) is
+      defined as 10^9. Conversely, the equivalent IEC binary prefix
+      Gibibyte (GiB) is defined as 2^30. To use Bits set this value to
+      '0'. For Si, set this value to '1'. For IEC, use '2'.</description>
+    </key>
+
+    <key name='significant-digits' type='i'>
+      <default>1</default>
+      <summary>Significant digits.</summary>
+      <description>Specify the number of significant digits to display
+      in the monitor values.</description>
+    </key>
+
+    <key name='display-rgba' type='s'>
+      <default>'rgba (204,204,204,1.0)'</default>
+      <summary>Display color.</summary>
+      <description>Configure the font and icon color properties. Where
+      'r', 'g', 'b' and 'a' are respectively the red, green, blue and
+      alpha color values. r g and b are either integers in the range 0
+      to 255 or precentage values in the range 0% to 100%, and a is a
+      floating point value in the range 0 to 1. Note that the a field
+      is optional.</description>
+    </key>
+
+    <key name='display-icons' type='b'>
+      <default>true</default>
+      <summary>Display icons.</summary>
+      <description>Display transmit and receive icons next to monitor
+      output.</description>
+    </key>
+
+    <key name='hide-when-idle' type='b'>
+      <default>false</default>
+      <summary>Hide when idle.</summary>
+      <description>Hide the monitor when there is no network
+      activity.</description>
+    </key>
+
+  </schema>
+
+</schemalist>
