@@ -54,9 +54,7 @@ const NetworkMonitor = new Lang.Class({
     create_ui: function() {
         this.rxlabel = new St.Label();
 
-        this.txlabel = new St.Label({
-            style_class: "nm-tx-label-small"
-        });
+        this.txlabel = new St.Label();
 
         this.rxprefix = new St.Label({
             style_class: "nm-prefix-label"
@@ -69,13 +67,13 @@ const NetworkMonitor = new Lang.Class({
         this.rxicon = new St.Icon({
             style_class: "nm-icon",
             icon_name: "network-transmit-symbolic",
-            icon_size: 14
+            icon_size: 12
         });
 
         this.txicon = new St.Icon({
             style_class: "nm-icon",
             icon_name: "network-receive-symbolic",
-            icon_size: 14
+            icon_size: 12
         });
 
         let box = new St.BoxLayout();
@@ -85,6 +83,8 @@ const NetworkMonitor = new Lang.Class({
         box.add_actor(this.rxprefix);
 
         box.add_actor(this.rxicon);
+
+        box.add_actor(new St.Label({ text: "    " })); // :D
 
         box.add_actor(this.txlabel);
 
@@ -124,7 +124,7 @@ const NetworkMonitor = new Lang.Class({
 
         let line = String(data[1]).split("\n");
 
-        return line[2].split(":")[0].trim(); // :D
+        return line[2].split(":")[0].trim(); // **Cough**
     },
 
     load_settings: function() {
@@ -177,38 +177,6 @@ const NetworkMonitor = new Lang.Class({
         }
         else if (key == "hide-when-idle") {
             this.hide_when_idle = this.settings.get_boolean("hide-when-idle");
-        }
-    },
-
-    update_tx_width: function(value) {
-        let digits = 1;
-
-        while (value > 1.0) {
-            value /= 10;
-            digits++;
-        }
-
-        digits += this.significant_digits;
-
-        // This feels like a bit of a hack, although, effective. I can
-        // not seem to find a better method to keep the tx label right
-        // aligned and to readjust when its values digits grow or
-        // shrink. Either the St and Clutter layouts are not capable
-        // of such as thing, or, they are poorly documented and I can
-        // not find what I am after, or, I did not spend enough time
-        // hacking at it. I am sure it is a mix of everything.
-
-        if (digits < 5) {
-            this.txlabel.set_style_class_name("nm-tx-label-small");
-        }
-        else if (digits < 8) {
-            this.txlabel.set_style_class_name("nm-tx-label-meduim");
-        }
-        else if (digits < 11) {
-            this.txlabel.set_style_class_name("nm-tx-label-large");
-        }
-        else {
-            this.txlabel.set_style_class_name("nm-tx-label-ridiculous");
         }
     },
 
@@ -313,8 +281,6 @@ const NetworkMonitor = new Lang.Class({
         this.txlabel.set_text(value);
 
         this.txprefix.set_text(prefix);
-
-        this.update_tx_width(value);
 
         this.rx = rxint;
 
