@@ -10,8 +10,9 @@ about_callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     UNREFERENCED_PARAMETER(wParam);
     UNREFERENCED_PARAMETER(lParam);
 
-    if (uMsg == WM_COMMAND)
+    if (uMsg == WM_COMMAND) {
         EndDialog(hwnd, IDD_ABOUT);
+    }
 
     return 0;
 }
@@ -27,7 +28,7 @@ select_font(HWND hwnd)
 {
     LOGFONT logfont;
 
-    GetObject(application.font.type, sizeof logfont, &logfont);
+    GetObject(application.settings.font.family, sizeof logfont, &logfont);
 
     CHOOSEFONT choosefont;
 
@@ -50,12 +51,13 @@ select_font(HWND hwnd)
 
     BOOL value = ChooseFont(&choosefont);
 
-    if (value == FALSE)
+    if (value == FALSE) {
         return;
+    }
 
     choosefont.lpLogFont->lfQuality = NONANTIALIASED_QUALITY;
 
-    application.font.type = CreateFontIndirect(choosefont.lpLogFont);
+    application.settings.font.family = CreateFontIndirect(choosefont.lpLogFont);
 
     update_application(hwnd);
 }
@@ -71,16 +73,16 @@ select_color(HWND hwnd)
     choosecolor.lStructSize = sizeof choosecolor;
     choosecolor.hwndOwner = hwnd;
     choosecolor.lpCustColors = (LPDWORD)custom_colors;
-    choosecolor.rgbResult = application.font.color;
+    choosecolor.rgbResult = application.settings.font.color;
     choosecolor.Flags = CC_FULLOPEN | CC_RGBINIT;
 
     BOOL value = ChooseColor(&choosecolor);
 
-    if (value == FALSE)
+    if (value == FALSE) {
         return;
+    }
 
-    application.font.color = choosecolor.rgbResult;
-
+    application.settings.font.color = choosecolor.rgbResult;
 
     update_application(hwnd);
 }
