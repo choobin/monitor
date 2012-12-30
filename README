@@ -1,4 +1,4 @@
-monitor, a simple light-weight cross-platform network monitor
+monitor, a simple lightweight cross-platform network monitor
 
 Well... really... this project is just an excuse for me to tinker with
 applications using Gtk, Qt, Win32, <insert library/framework/whatever>.
