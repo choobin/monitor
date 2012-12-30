@@ -23,7 +23,6 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_TIMER:
-        // XXX This timer callback needs work. I am not happy with it.
         application.data = application.monitor.poll();
 
         RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -32,14 +31,17 @@ window_procedure(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_NOTIFYICON:
         if (lParam == WM_LBUTTONDOWN) {
-            if (IsWindowVisible(hwnd))
+            if (IsWindowVisible(hwnd)) {
                 ShowWindow(hwnd, SW_HIDE);
-            else
+            }
+            else {
                 ShowWindow(hwnd, SW_SHOW);
+            }
         }
 
-        if (lParam == WM_RBUTTONDOWN)
+        if (lParam == WM_RBUTTONDOWN) {
             show_menu(hwnd);
+        }
 
         break;
 
@@ -69,8 +71,11 @@ register_class(HINSTANCE hInstance)
     wnd.style = CS_HREDRAW | CS_VREDRAW;
 
     wnd.lpfnWndProc = window_procedure;
+
     wnd.cbClsExtra = 0;
+
     wnd.cbWndExtra = 0;
+
     wnd.hInstance = hInstance;
 
     wnd.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
@@ -82,6 +87,7 @@ register_class(HINSTANCE hInstance)
     wnd.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 
     wnd.lpszMenuName = NULL;
+
     wnd.lpszClassName = NULL;
 
     wnd.lpszClassName = MONITOR_NAME;
