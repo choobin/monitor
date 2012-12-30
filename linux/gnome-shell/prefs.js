@@ -132,9 +132,9 @@ const MonitorSettings = new Lang.Class({
             halign: Gtk.Align.FILL
         });
 
-        this.prefix.append_text("Bits (Kb/Mb/Gb)");
-        this.prefix.append_text("Bytes Si (KB/MB/GB)");
-        this.prefix.append_text("Bytes IEC (KiB/MiB/GiB)");
+        this.prefix.append_text("Bits");
+        this.prefix.append_text("Bytes Si (xB/s)");
+        this.prefix.append_text("Bytes IEC (xiB/s)");
 
         this.container.attach(new Gtk.Label({
             label: "Significant digits",
@@ -144,7 +144,7 @@ const MonitorSettings = new Lang.Class({
             halign: Gtk.Align.START
         }), 1, 4, 3, 1);
 
-        this.significant_digits = new Gtk.SpinButton.new_with_range(0, 4, 1);
+        this.significant_digits = new Gtk.SpinButton.new_with_range(0, 10, 1);
 
         this.significant_digits.set_margin_top(10);
         this.significant_digits.set_margin_left(10);
