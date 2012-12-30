@@ -1,10 +1,25 @@
 #pragma once
 
-void 
+struct Settings {
+    int interface_id;
+
+    int units_id;
+
+    int prefix_id;
+
+    int placement_id;
+
+    struct {
+        HFONT family;
+        COLORREF color;
+    } font;
+};
+
+void
 update_settings();
 
-void 
+void
 load_settings();
 
-void 
+void
 save_settings();
