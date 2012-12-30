@@ -8,8 +8,10 @@
 
 #define MONITOR_VERSION_STR L"1.0"
 
-// .rc files do not accept concatenated strings, i.e., "Hello" " " "world".
-// This means I can not use MONITOR_NAME L" v" MONITOR_VERSION.
+// .rc files do not concatenate strings, i.e., "Hello" " " "world". 
+// I assume the rc parser does not run any .h files through the 
+// C Preprocessor first. However, I am not entirely sure. Anyway,
+// this means I can not use MONITOR_NAME L" v" MONITOR_VERSION.
 // Thus the following definition.
 
 #define MONITOR L"Monitor v1.0"
@@ -23,6 +25,8 @@
 #define MONITOR_FILENAME L"Monitor.exe"
 
 #define MONITOR_ICON L"monitor.ico"
+
+#define MONITOR_MAGIC 0xBEEF
 
 #define TIMEOUT_INTERVAL 1000
 
