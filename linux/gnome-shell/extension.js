@@ -124,7 +124,7 @@ const NetworkMonitor = new Lang.Class({
 
         let line = String(data[1]).split("\n");
 
-        return line[2].split(":")[0].trim(); // **Cough**
+        return line[2].split(":")[0].trim(); // **Cough** Check /proc/net/dev for the nitty gritty.
     },
 
     load_settings: function() {
@@ -136,10 +136,15 @@ const NetworkMonitor = new Lang.Class({
         }
 
         this.update_setting(null, "format");
+
         this.update_setting(null, "prefix");
+
         this.update_setting(null, "significant-digits");
+
         this.update_setting(null, "display-rgba");
+
         this.update_setting(null, "display-icons");
+
         this.update_setting(null, "hide-when-idle");
 
         this.rx = 0;
@@ -155,6 +160,10 @@ const NetworkMonitor = new Lang.Class({
             this.interface_name = this.settings.get_string("interface");
 
             this.initialized = false; // And we start again.
+
+            this.rx = 0.0;
+
+            this.tx = 0.0;
         }
         else if (key == "format") {
             this.format = this.settings.get_int("format");
@@ -304,7 +313,7 @@ let monitor;
 function enable() {
     monitor = new NetworkMonitor();
 
-    Main.panel.addToStatusArea('monitor', monitor);
+    Main.panel.addToStatusArea("monitor", monitor);
 }
 
 function disable() {
