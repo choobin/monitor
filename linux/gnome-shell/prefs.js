@@ -144,7 +144,7 @@ const MonitorSettings = new Lang.Class({
             halign: Gtk.Align.START
         }), 1, 4, 3, 1);
 
-        this.significant_digits = new Gtk.SpinButton.new_with_range(0, 10, 1);
+        this.significant_digits = Gtk.SpinButton.new_with_range(0, 10, 1);
 
         this.significant_digits.set_margin_top(10);
         this.significant_digits.set_margin_left(10);
