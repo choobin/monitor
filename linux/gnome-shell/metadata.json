@@ -3,5 +3,5 @@
     "name": "Network Monitor",
     "description": "A simple lightweight network monitor.",
     "url": "http://github.com/choobin/monitor",
-    "shell-version": ["3.6"]
+    "shell-version": ["3.6", "3.8"]
 }
